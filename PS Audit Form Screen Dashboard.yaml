@@ -1,0 +1,687 @@
+PS Audit Form Screen Dashboard:
+  Properties:
+    Fill: =RGBA(240, 244, 248, 1)
+    LoadingSpinner: =LoadingSpinner.None
+    OnVisible: =Set(varDB_SortAsc, false)
+  Children:
+  - Rectangle_DBHeader:
+      Control: Rectangle@1.0.0
+      Properties:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =70
+        Fill: =RGBA(15, 84, 140, 1)
+  - Label_DBTitle:
+      Control: Label@2.5.1
+      Properties:
+        X: =60
+        Y: =0
+        Width: =Parent.Width - 220
+        Height: =70
+        Text: ="AUDIT SCORE DASHBOARD"
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Lato Black'
+        Size: =20
+        FontWeight: =FontWeight.Bold
+        Align: =Align.Left
+        VerticalAlign: =VerticalAlign.Middle
+        PaddingLeft: =10
+  - ButtonCanvas_DBBack:
+      Control: ButtonCanvas@2.3.0
+      Properties:
+        X: =8
+        Y: =10
+        Width: =46
+        Height: =46
+        OnSelect: =Navigate('PS Audit Form Screen')
+        BorderRadius: =23
+        Fill: =RGBA(255, 255, 255, 0.15)
+        HoverFill: =RGBA(255, 255, 255, 0.25)
+        PressedFill: =RGBA(255, 255, 255, 0.35)
+        BorderColor: =RGBA(255, 255, 255, 0.3)
+        BorderThickness: =1
+        ToolTip: ="Back to Audit Form"
+      Children:
+      - Icon_DBBackArrow:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Icon: =Icon.ChevronLeft
+            Color: =RGBA(255, 255, 255, 1)
+            Width: =30
+            Height: =30
+            X: =8
+            Y: =8
+  - Container_DBStats:
+      Control: GroupContainer@1.5.0
+      Properties:
+        X: =16
+        Y: =88
+        Width: =Parent.Width - 32
+        Height: =110
+        LayoutDirection: =LayoutDirection.Horizontal
+        Gap: =12
+        AlignInContainer: =AlignInContainer.Stretch
+        FillPortions: =1
+        Fill: =RGBA(0, 0, 0, 0)
+      Children:
+      - Container_StatTotal:
+          Control: GroupContainer@1.5.0
+          Properties:
+            FillPortions: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            DropShadow: =DropShadow.Light
+            LayoutDirection: =LayoutDirection.Vertical
+            AlignInContainer: =AlignInContainer.Stretch
+          Children:
+          - Label_StatTotalVal:
+              Control: Label@2.5.1
+              Properties:
+                Text: =Text(CountRows('QA Compilation - Entries'), "0")
+                Color: =RGBA(15, 84, 140, 1)
+                Font: =Font.'Lato Black'
+                Size: =28
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Bottom
+                FillPortions: =2
+                PaddingTop: =10
+          - Label_StatTotalLbl:
+              Control: Label@2.5.1
+              Properties:
+                Text: ="Total Audits"
+                Color: =RGBA(100, 100, 100, 1)
+                Font: =Font.Lato
+                Size: =12
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Top
+                FillPortions: =1
+                PaddingBottom: =10
+      - Container_StatAvg:
+          Control: GroupContainer@1.5.0
+          Properties:
+            FillPortions: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            DropShadow: =DropShadow.Light
+            LayoutDirection: =LayoutDirection.Vertical
+            AlignInContainer: =AlignInContainer.Stretch
+          Children:
+          - Label_StatAvgVal:
+              Control: Label@2.5.1
+              Properties:
+                Text: =If(CountRows('QA Compilation - Entries') = 0, "N/A", Text(Average(AddColumns('QA Compilation - Entries', "NumScore", Value(Substitute(Score, "%", ""))), NumScore), "0.00") & "%")
+                Color: =RGBA(73, 130, 5, 1)
+                Font: =Font.'Lato Black'
+                Size: =28
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Bottom
+                FillPortions: =2
+                PaddingTop: =10
+          - Label_StatAvgLbl:
+              Control: Label@2.5.1
+              Properties:
+                Text: ="Average Score"
+                Color: =RGBA(100, 100, 100, 1)
+                Font: =Font.Lato
+                Size: =12
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Top
+                FillPortions: =1
+                PaddingBottom: =10
+      - Container_StatPass:
+          Control: GroupContainer@1.5.0
+          Properties:
+            FillPortions: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            DropShadow: =DropShadow.Light
+            LayoutDirection: =LayoutDirection.Vertical
+            AlignInContainer: =AlignInContainer.Stretch
+          Children:
+          - Label_StatPassVal:
+              Control: Label@2.5.1
+              Properties:
+                Text: =Text(CountIf('QA Compilation - Entries', Value(Substitute(Score, "%", "")) >= 95), "0")
+                Color: =RGBA(0, 153, 0, 1)
+                Font: =Font.'Lato Black'
+                Size: =28
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Bottom
+                FillPortions: =2
+                PaddingTop: =10
+          - Label_StatPassLbl:
+              Control: Label@2.5.1
+              Properties:
+                Text: ="Passing (≥95%)"
+                Color: =RGBA(100, 100, 100, 1)
+                Font: =Font.Lato
+                Size: =12
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Top
+                FillPortions: =1
+                PaddingBottom: =10
+      - Container_StatFail:
+          Control: GroupContainer@1.5.0
+          Properties:
+            FillPortions: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            DropShadow: =DropShadow.Light
+            LayoutDirection: =LayoutDirection.Vertical
+            AlignInContainer: =AlignInContainer.Stretch
+          Children:
+          - Label_StatFailVal:
+              Control: Label@2.5.1
+              Properties:
+                Text: =Text(CountIf('QA Compilation - Entries', Value(Substitute(Score, "%", "")) < 95), "0")
+                Color: =RGBA(200, 0, 0, 1)
+                Font: =Font.'Lato Black'
+                Size: =28
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Bottom
+                FillPortions: =2
+                PaddingTop: =10
+          - Label_StatFailLbl:
+              Control: Label@2.5.1
+              Properties:
+                Text: ="Failing (<95%)"
+                Color: =RGBA(100, 100, 100, 1)
+                Font: =Font.Lato
+                Size: =12
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Top
+                FillPortions: =1
+                PaddingBottom: =10
+  - Container_DBFilters:
+      Control: GroupContainer@1.5.0
+      Properties:
+        X: =16
+        Y: =214
+        Width: =Parent.Width - 32
+        Height: =110
+        Fill: =RGBA(255, 255, 255, 1)
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        DropShadow: =DropShadow.Light
+        LayoutDirection: =LayoutDirection.Horizontal
+        Gap: =10
+        AlignInContainer: =AlignInContainer.Center
+        PaddingLeft: =12
+        PaddingRight: =12
+        PaddingTop: =12
+        PaddingBottom: =12
+      Children:
+      - Container_FilterSearch:
+          Control: GroupContainer@1.5.0
+          Properties:
+            FillPortions: =3
+            Fill: =RGBA(0, 0, 0, 0)
+            LayoutDirection: =LayoutDirection.Vertical
+            Gap: =4
+            AlignInContainer: =AlignInContainer.Stretch
+          Children:
+          - Label_FilterSearchLbl:
+              Control: Label@2.5.1
+              Properties:
+                Text: ="Search Agent"
+                Color: =RGBA(80, 80, 80, 1)
+                Font: =Font.Lato
+                Size: =11
+                Height: =18
+                FontWeight: =FontWeight.Semibold
+          - TextInput_DBSearch:
+              Control: Classic/TextInput@2.3.2
+              Properties:
+                FillPortions: =1
+                PlaceholderText: ="Name or Contact ID..."
+                Font: =Font.Lato
+                Size: =13
+                BorderColor: =RGBA(200, 200, 200, 1)
+                FocusedBorderColor: =RGBA(15, 84, 140, 1)
+                BorderThickness: =1
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+      - Container_FilterForm:
+          Control: GroupContainer@1.5.0
+          Properties:
+            FillPortions: =2
+            Fill: =RGBA(0, 0, 0, 0)
+            LayoutDirection: =LayoutDirection.Vertical
+            Gap: =4
+            AlignInContainer: =AlignInContainer.Stretch
+          Children:
+          - Label_FilterFormLbl:
+              Control: Label@2.5.1
+              Properties:
+                Text: ="Audit Form"
+                Color: =RGBA(80, 80, 80, 1)
+                Font: =Font.Lato
+                Size: =11
+                Height: =18
+                FontWeight: =FontWeight.Semibold
+          - Dropdown_DBForm:
+              Control: Classic/DropDown@2.3.1
+              Properties:
+                FillPortions: =1
+                Items: =["All Forms","NOA","PRG","FC","SCH","OM","IVA","IDX","RR","CAS"]
+                Font: =Font.Lato
+                Size: =13
+                BorderColor: =RGBA(200, 200, 200, 1)
+                ChevronBackground: =RGBA(15, 84, 140, 1)
+                ChevronFill: =RGBA(255, 255, 255, 1)
+      - Container_FilterMarket:
+          Control: GroupContainer@1.5.0
+          Properties:
+            FillPortions: =2
+            Fill: =RGBA(0, 0, 0, 0)
+            LayoutDirection: =LayoutDirection.Vertical
+            Gap: =4
+            AlignInContainer: =AlignInContainer.Stretch
+          Children:
+          - Label_FilterMarketLbl:
+              Control: Label@2.5.1
+              Properties:
+                Text: ="Market"
+                Color: =RGBA(80, 80, 80, 1)
+                Font: =Font.Lato
+                Size: =11
+                Height: =18
+                FontWeight: =FontWeight.Semibold
+          - Dropdown_DBMarket:
+              Control: Classic/DropDown@2.3.1
+              Properties:
+                FillPortions: =1
+                Items: =Distinct(Sort('QA Compilation - Entries', Market, SortOrder.Ascending), Market)
+                Font: =Font.Lato
+                Size: =13
+                BorderColor: =RGBA(200, 200, 200, 1)
+                ChevronBackground: =RGBA(15, 84, 140, 1)
+                ChevronFill: =RGBA(255, 255, 255, 1)
+      - Container_FilterDateStart:
+          Control: GroupContainer@1.5.0
+          Properties:
+            FillPortions: =2
+            Fill: =RGBA(0, 0, 0, 0)
+            LayoutDirection: =LayoutDirection.Vertical
+            Gap: =4
+            AlignInContainer: =AlignInContainer.Stretch
+          Children:
+          - Label_FilterDateStartLbl:
+              Control: Label@2.5.1
+              Properties:
+                Text: ="Date From"
+                Color: =RGBA(80, 80, 80, 1)
+                Font: =Font.Lato
+                Size: =11
+                Height: =18
+                FontWeight: =FontWeight.Semibold
+          - DatePicker_DBStart:
+              Control: ModernDatePicker@1.0.0
+              Properties:
+                FillPortions: =1
+                Font: =Font.Lato
+                Size: =13
+      - Container_FilterDateEnd:
+          Control: GroupContainer@1.5.0
+          Properties:
+            FillPortions: =2
+            Fill: =RGBA(0, 0, 0, 0)
+            LayoutDirection: =LayoutDirection.Vertical
+            Gap: =4
+            AlignInContainer: =AlignInContainer.Stretch
+          Children:
+          - Label_FilterDateEndLbl:
+              Control: Label@2.5.1
+              Properties:
+                Text: ="Date To"
+                Color: =RGBA(80, 80, 80, 1)
+                Font: =Font.Lato
+                Size: =11
+                Height: =18
+                FontWeight: =FontWeight.Semibold
+          - DatePicker_DBEnd:
+              Control: ModernDatePicker@1.0.0
+              Properties:
+                FillPortions: =1
+                Font: =Font.Lato
+                Size: =13
+      - Container_FilterButtons:
+          Control: GroupContainer@1.5.0
+          Properties:
+            FillPortions: =1
+            Fill: =RGBA(0, 0, 0, 0)
+            LayoutDirection: =LayoutDirection.Vertical
+            Gap: =6
+            AlignInContainer: =AlignInContainer.Center
+          Children:
+          - ButtonCanvas_DBSort:
+              Control: ButtonCanvas@2.3.0
+              Properties:
+                Text: =If(varDB_SortAsc, "↑ Score", "↓ Score")
+                OnSelect: =Set(varDB_SortAsc, !varDB_SortAsc)
+                Fill: =RGBA(15, 84, 140, 1)
+                HoverFill: =RGBA(10, 60, 110, 1)
+                PressedFill: =RGBA(8, 45, 85, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.Lato
+                Size: =12
+                FontWeight: =FontWeight.Semibold
+                BorderRadius: =4
+                Height: =34
+                ToolTip: ="Toggle sort order"
+          - ButtonCanvas_DBReset:
+              Control: ButtonCanvas@2.3.0
+              Properties:
+                Text: ="Reset Filters"
+                OnSelect: =Reset(TextInput_DBSearch); Reset(Dropdown_DBForm); Reset(Dropdown_DBMarket); Reset(DatePicker_DBStart); Reset(DatePicker_DBEnd)
+                Fill: =RGBA(180, 180, 180, 1)
+                HoverFill: =RGBA(150, 150, 150, 1)
+                PressedFill: =RGBA(120, 120, 120, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.Lato
+                Size: =12
+                FontWeight: =FontWeight.Semibold
+                BorderRadius: =4
+                Height: =34
+                ToolTip: ="Clear all filters"
+  - Container_DBGalleryHeader:
+      Control: GroupContainer@1.5.0
+      Properties:
+        X: =16
+        Y: =340
+        Width: =Parent.Width - 32
+        Height: =40
+        Fill: =RGBA(47, 93, 68, 1)
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        LayoutDirection: =LayoutDirection.Horizontal
+        AlignInContainer: =AlignInContainer.Center
+        PaddingLeft: =10
+        PaddingRight: =10
+      Children:
+      - Label_HdrName:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Agent Name"
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Lato Black'
+            Size: =12
+            FontWeight: =FontWeight.Bold
+            FillPortions: =3
+            Align: =Align.Left
+            VerticalAlign: =VerticalAlign.Middle
+      - Label_HdrForm:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Audit Form"
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Lato Black'
+            Size: =12
+            FontWeight: =FontWeight.Bold
+            FillPortions: =2
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+      - Label_HdrMarket:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Market"
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Lato Black'
+            Size: =12
+            FontWeight: =FontWeight.Bold
+            FillPortions: =2
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+      - Label_HdrAuditID:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Audit ID"
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Lato Black'
+            Size: =12
+            FontWeight: =FontWeight.Bold
+            FillPortions: =2
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+      - Label_HdrAuditDate:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Audit Date"
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Lato Black'
+            Size: =12
+            FontWeight: =FontWeight.Bold
+            FillPortions: =2
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+      - Label_HdrCallDate:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Call Date"
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Lato Black'
+            Size: =12
+            FontWeight: =FontWeight.Bold
+            FillPortions: =2
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+      - Label_HdrAuditedBy:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Audited By"
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Lato Black'
+            Size: =12
+            FontWeight: =FontWeight.Bold
+            FillPortions: =2
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+      - Label_HdrScore:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Score"
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Lato Black'
+            Size: =12
+            FontWeight: =FontWeight.Bold
+            FillPortions: =1
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+  - Gallery_DBAudit:
+      Control: Gallery@2.15.0
+      Properties:
+        X: =16
+        Y: =380
+        Width: =Parent.Width - 32
+        Height: =Parent.Height - 430
+        Items: =Sort(Filter('QA Compilation - Entries', (IsBlank(TextInput_DBSearch.Text) || TextInput_DBSearch.Text in 'Agent''s Full Name'.DisplayName || TextInput_DBSearch.Text in 'Agent Contact ID/ Master Contact ID/ MRN'), (Dropdown_DBForm.Selected.Value = "All Forms" || 'Audit Form' = Dropdown_DBForm.Selected.Value), (Dropdown_DBMarket.Selected.Value = "All Markets" || Market = Dropdown_DBMarket.Selected.Value), (IsBlank(DatePicker_DBStart.SelectedDate) || Created >= DatePicker_DBStart.SelectedDate), (IsBlank(DatePicker_DBEnd.SelectedDate) || Created < DateAdd(DatePicker_DBEnd.SelectedDate, 1, TimeUnit.Days))), Value(Substitute(Score, "%", "")), If(varDB_SortAsc, SortOrder.Ascending, SortOrder.Descending))
+        TemplateSize: =52
+        TemplatePadding: =0
+        ShowScrollbar: =true
+        BorderColor: =RGBA(220, 220, 220, 1)
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+      Children:
+      - Rectangle_DBRowBG:
+          Control: Rectangle@1.0.0
+          Properties:
+            X: =0
+            Y: =0
+            Width: =Parent.TemplateWidth
+            Height: =Parent.TemplateHeight
+            Fill: =If(IsEven(ThisItem.ItemNumber), RGBA(245, 248, 252, 1), RGBA(255, 255, 255, 1))
+            BorderColor: =RGBA(230, 230, 230, 1)
+            BorderThickness: =1
+      - Container_DBRow:
+          Control: GroupContainer@1.5.0
+          Properties:
+            X: =0
+            Y: =0
+            Width: =Parent.TemplateWidth
+            Height: =Parent.TemplateHeight
+            Fill: =RGBA(0, 0, 0, 0)
+            LayoutDirection: =LayoutDirection.Horizontal
+            AlignInContainer: =AlignInContainer.Center
+            PaddingLeft: =10
+            PaddingRight: =10
+          Children:
+          - Label_DBRowName:
+              Control: Label@2.5.1
+              Properties:
+                Text: =ThisItem.'Agent''s Full Name'.DisplayName
+                Color: =RGBA(30, 30, 30, 1)
+                Font: =Font.Lato
+                Size: =12
+                FillPortions: =3
+                Align: =Align.Left
+                VerticalAlign: =VerticalAlign.Middle
+                Overflow: =Overflow.Hidden
+          - Label_DBRowForm:
+              Control: Label@2.5.1
+              Properties:
+                Text: =ThisItem.'Audit Form'
+                Color: =RGBA(30, 30, 30, 1)
+                Font: =Font.Lato
+                Size: =12
+                FillPortions: =2
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Middle
+          - Label_DBRowMarket:
+              Control: Label@2.5.1
+              Properties:
+                Text: =ThisItem.Market
+                Color: =RGBA(30, 30, 30, 1)
+                Font: =Font.Lato
+                Size: =12
+                FillPortions: =2
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Middle
+          - Label_DBRowAuditID:
+              Control: Label@2.5.1
+              Properties:
+                Text: =ThisItem.'Audit ID'
+                Color: =RGBA(30, 30, 30, 1)
+                Font: =Font.Lato
+                Size: =12
+                FillPortions: =2
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Middle
+          - Label_DBRowAuditDate:
+              Control: Label@2.5.1
+              Properties:
+                Text: =Text(ThisItem.Created, "mm/dd/yyyy")
+                Color: =RGBA(30, 30, 30, 1)
+                Font: =Font.Lato
+                Size: =12
+                FillPortions: =2
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Middle
+          - Label_DBRowCallDate:
+              Control: Label@2.5.1
+              Properties:
+                Text: =Text(ThisItem.'Call Date', "mm/dd/yyyy")
+                Color: =RGBA(30, 30, 30, 1)
+                Font: =Font.Lato
+                Size: =12
+                FillPortions: =2
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Middle
+          - Label_DBRowAuditedBy:
+              Control: Label@2.5.1
+              Properties:
+                Text: =ThisItem.'Created By'.DisplayName
+                Color: =RGBA(30, 30, 30, 1)
+                Font: =Font.Lato
+                Size: =12
+                FillPortions: =2
+                Align: =Align.Center
+                VerticalAlign: =VerticalAlign.Middle
+                Overflow: =Overflow.Hidden
+          - Container_DBScoreBadge:
+              Control: GroupContainer@1.5.0
+              Properties:
+                FillPortions: =1
+                Fill: =RGBA(0, 0, 0, 0)
+                LayoutDirection: =LayoutDirection.Horizontal
+                AlignInContainer: =AlignInContainer.Center
+              Children:
+              - Label_DBRowScore:
+                  Control: Label@2.5.1
+                  Properties:
+                    Text: =ThisItem.Score
+                    Color: =RGBA(255, 255, 255, 1)
+                    Font: =Font.'Lato Black'
+                    Size: =12
+                    FontWeight: =FontWeight.Bold
+                    Align: =Align.Center
+                    VerticalAlign: =VerticalAlign.Middle
+                    Fill: =If(IsBlank(ThisItem.Score), RGBA(200, 200, 200, 1), If(Value(Substitute(ThisItem.Score, "%", "")) >= 95, RGBA(73, 130, 5, 1), RGBA(200, 30, 30, 1)))
+                    PaddingLeft: =8
+                    PaddingRight: =8
+                    PaddingTop: =4
+                    PaddingBottom: =4
+                    RadiusTopLeft: =12
+                    RadiusTopRight: =12
+                    RadiusBottomLeft: =12
+                    RadiusBottomRight: =12
+                    Width: =70
+                    Height: =28
+  - Container_DBFooter:
+      Control: GroupContainer@1.5.0
+      Properties:
+        X: =16
+        Y: =Parent.Height - 42
+        Width: =Parent.Width - 32
+        Height: =34
+        Fill: =RGBA(0, 0, 0, 0)
+        LayoutDirection: =LayoutDirection.Horizontal
+        AlignInContainer: =AlignInContainer.Center
+        Gap: =20
+      Children:
+      - Label_DBRecordCount:
+          Control: Label@2.5.1
+          Properties:
+            Text: =CountRows(Gallery_DBAudit.AllItems) & " record(s) found"
+            Color: =RGBA(100, 100, 100, 1)
+            Font: =Font.Lato
+            Size: =12
+            FillPortions: =1
+            Align: =Align.Left
+            VerticalAlign: =VerticalAlign.Middle
+      - Label_DBPassRate:
+          Control: Label@2.5.1
+          Properties:
+            Text: =If(CountRows(Gallery_DBAudit.AllItems) = 0, "Pass Rate: N/A", "Pass Rate: " & Text(Round(CountIf(Gallery_DBAudit.AllItems, Value(Substitute(Score, "%", "")) >= 95) / CountRows(Gallery_DBAudit.AllItems) * 100, 1), "0.0") & "%")
+            Color: =RGBA(100, 100, 100, 1)
+            Font: =Font.Lato
+            Size: =12
+            FillPortions: =1
+            Align: =Align.Right
+            VerticalAlign: =VerticalAlign.Middle
