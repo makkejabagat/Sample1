@@ -1,2 +1,4 @@
 Event Name,Order ID,Price Paid,Payout Amount,Status
 Roland-Garros,RG-123,$500,$700,Sold
+FIFA World Cup,WC-999,$1200,,Sold
+LA28 Olympics,LA-777,,$850,Paid Out
